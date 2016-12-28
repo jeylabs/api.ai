@@ -56,11 +56,15 @@ class ApiAi
 
     public function query($q)
     {
+        if (!session()->has('api_ai')) {
+            session()->put('api_ai', str_random());
+        }
+        $sessionId = session()->get('api_ai');
         $query = [
             "v" => "20150910",
             "lang" => "en",
             "query" => $q,
-            "sessionId" => "WDJVinTjyD3ALJ62",
+            "sessionId" => $sessionId,
         ];
         return $this->makeRequest('GET', 'query', $query);
     }
